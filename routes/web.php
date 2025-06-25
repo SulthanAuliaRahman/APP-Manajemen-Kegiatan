@@ -1,21 +1,28 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
-Route::get('/', function () {
-    return view('auth.loginPage');
-});
+Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 
-Route::get('/register', function () {
-    return view('auth.registerPage');
-});
+// Route untuk proses login dan register
+Route::post('/login', [AuthController::class, 'login'])->name('login.process');
+Route::post('/register', [AuthController::class, 'register'])->name('register.process');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// Route untuk dashboard (dengan middleware check auth)
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    if (!session()->has('user_id')) {
+        return redirect('/')->with('error', 'Silakan login terlebih dahulu.');
+    }
+    
+    return view('dashboard', [
+        'user' => [
+            'name' => session('name'),
+            'email' => session('email'),
+            'role' => session('role')
+        ]
+    ]);
 })->name('dashboard');
-
-Route::post('/logout', function () {
-    session()->forget('user_id');
-    session()->forget('name');
-    return redirect('/login');
-})->name('logout');
