@@ -29,6 +29,7 @@ Route::middleware(['auth.check'])->group(function () {
         Route::get('/manageKegiatan', [AdminController::class, 'manageKegiatan'])->name('manageKegiatan');
         Route::get('/manageUser', [AdminController::class, 'manageUser'])->name('manageUser');
         Route::get('/approveKegiatan', [AdminController::class, 'approveKegiatan'])->name('approveKegiatan');
+        Route::get('/buatUser', [AdminController::class, 'buatUser'])->name('buatUser');
     });
     
     // Routes khusus Dosen

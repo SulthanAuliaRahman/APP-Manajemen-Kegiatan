@@ -16,8 +16,8 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             'user_id' => (string) Str::uuid(),
-            'name' => 'John',
-            'email' => 'john@example.com',
+            'name' => 'admin',
+            'email' => 'admin@example.com',
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
             'role' => 'Admin',
@@ -28,8 +28,8 @@ class UserSeeder extends Seeder
 
         DB::table('users')->insert([
             'user_id' => (string) Str::uuid(),
-            'name' => 'jane',
-            'email' => 'jane@example.com',
+            'name' => 'dosen',
+            'email' => 'dosen@example.com',
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
             'role' => 'Dosen',
@@ -40,8 +40,8 @@ class UserSeeder extends Seeder
 
         DB::table('users')->insert([
             'user_id' => (string) Str::uuid(),
-            'name' => 'Himakom',
-            'email' => 'Himakom@example.com',
+            'name' => 'Himpunan',
+            'email' => 'Himpunan@example.com',
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
             'role' => 'Himpunan',
@@ -52,11 +52,11 @@ class UserSeeder extends Seeder
 
         DB::table('users')->insert([
             'user_id' => (string) Str::uuid(),
-            'name' => 'Sulthan',
-            'email' => 'Sulthan@example.com',
+            'name' => 'mahasiswa',
+            'email' => 'mahasiswa@example.com',
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
-            'role' => 'Sulthan',
+            'role' => 'Mahasiswa',
             'remember_token' => Str::random(10),
             'created_at' => now(),
             'updated_at' => now(),

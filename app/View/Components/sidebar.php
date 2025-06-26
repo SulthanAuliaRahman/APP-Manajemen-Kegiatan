@@ -15,9 +15,9 @@ class sidebar extends Component
     {
         // Ambil data user dari session
         $this->user = [
-            'name' => session('name'),
-            'email' => session('email'),
-            'role' => session('role')
+            'name' => session('name', 'Guest'),
+            'email' => session('email', ''),
+            'role' => session('role', 'mahasiswa')
         ];
 
         // Set menu items berdasarkan role
@@ -27,58 +27,38 @@ class sidebar extends Component
     private function getMenuItems($role)
     {
         $menus = [
-            'mahasiswa' => [
+            'Mahasiswa' => [
                 [
                     'title' => 'Daftar Kegiatan',
                     'route' => 'daftarKegiatan',
                     'icon' => 'calendar'
-                ],
-                [
-                    'title' => 'Daftar User',
-                    'route' => 'daftarUser',
-                    'icon' => 'users'
                 ]
             ],
-            'admin' => [
+            'Dosen' => [
                 [
                     'title' => 'Daftar Kegiatan',
                     'route' => 'daftarKegiatan',
                     'icon' => 'calendar'
                 ],
                 [
-                    'title' => 'Manage Kegiatan',
-                    'route' => 'manageKegiatan',
-                    'icon' => 'settings'
-                ],
-                [
-                    'title' => 'Manage User',
-                    'route' => 'manageUser',
-                    'icon' => 'user-cog'
-                ],
-                [
-                    'title' => 'Approve/Unapprove Kegiatan',
+                    'title' => 'Approve Kegiatan',
                     'route' => 'approveKegiatan',
                     'icon' => 'check-circle'
                 ]
             ],
-            'dosen' => [
+            'Himpunan' => [
                 [
                     'title' => 'Daftar Kegiatan',
                     'route' => 'daftarKegiatan',
                     'icon' => 'calendar'
                 ],
                 [
-                    'title' => 'Kelola Kegiatan',
-                    'route' => 'kelolaKegiatan',
-                    'icon' => 'edit'
-                ],
-                [
-                    'title' => 'Laporan Mahasiswa',
-                    'route' => 'laporanMahasiswa',
-                    'icon' => 'file-text'
+                    'title' => 'Buat Kegiatan',
+                    'route' => 'buatKegiatan',
+                    'icon' => 'plus-circle'
                 ]
             ],
-            'himpunan' => [
+            'Admin' => [
                 [
                     'title' => 'Daftar Kegiatan',
                     'route' => 'daftarKegiatan',
@@ -90,14 +70,14 @@ class sidebar extends Component
                     'icon' => 'plus-circle'
                 ],
                 [
-                    'title' => 'Kegiatan Saya',
-                    'route' => 'kegiatanSaya',
-                    'icon' => 'list'
+                    'title' => 'Approve Kegiatan',
+                    'route' => 'approveKegiatan',
+                    'icon' => 'check-circle'
                 ],
                 [
-                    'title' => 'Anggota Himpunan',
-                    'route' => 'anggotaHimpunan',
-                    'icon' => 'users'
+                    'title' => 'Buat User',
+                    'route' => 'buatUser',
+                    'icon' => 'user-cog'
                 ]
             ]
         ];
