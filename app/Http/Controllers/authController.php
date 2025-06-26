@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -55,7 +55,7 @@ class AuthController extends Controller
                 'role' => $user->role
             ]);
 
-            return redirect()->route('dashboard')->with('success', 'Login berhasil!');
+            return redirect()->route('daftarKegiatan')->with('success', 'Login berhasil!');
         }
 
         return redirect()->back()
@@ -71,6 +71,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'role' => 'required|in:mahasiswa,admin,dosen,organisasi'
         ]);
 
         if ($validator->fails()) {
@@ -86,7 +87,7 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role' => 'mahasiswa'
+                'role' => $request->role
             ]);
 
             // Auto login setelah register
@@ -97,7 +98,7 @@ class AuthController extends Controller
                 'role' => $user->role
             ]);
 
-            return redirect()->route('dashboard')->with('success', 'Registrasi berhasil!');
+            return redirect()->route('daftarKegiatan')->with('success', 'Registrasi berhasil!');
 
         } catch (\Exception $e) {
             return redirect()->back()
@@ -113,12 +114,4 @@ class AuthController extends Controller
         return redirect('/')->with('success', 'Logout berhasil!');
     }
 
-    // Middleware untuk cek apakah user sudah login
-    public function checkAuth()
-    {
-        if (!session()->has('user_id')) {
-            return redirect('/')->with('error', 'Silakan login terlebih dahulu.');
-        }
-        return null;
-    }
 }
