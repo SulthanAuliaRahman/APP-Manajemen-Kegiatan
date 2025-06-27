@@ -165,4 +165,72 @@ class KegiatanController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Kegiatan updated successfully.']);
     }
+
+    public function manageApprovals()
+    {
+        $user = session()->has('user_id') ? [
+            'name' => session('name'),
+            'email' => session('email'),
+            'role' => session('role'),
+            'user_id' => session('user_id'),
+        ] : null;
+
+        if (!$user || !in_array($user['role'], ['dosen', 'admin'])) {
+            Log::info('Unauthorized access to manageApprovals method. User: ' . ($user ? $user['email'] : 'Not logged in'));
+            abort(403, 'Unauthorized action.');
+        }
+
+        $menuItems = MenuService::getMenuItems($user['role']);
+        $kegiatans = Kegiatan::with('creator')->orderBy('created_at', 'desc')->get();
+
+        return view('manageApprovals', compact('user', 'menuItems', 'kegiatans'));
+    }
+
+    public function approve(Request $request, $kegiatanId)
+    {
+        $user = session()->has('user_id') ? [
+            'name' => session('name'),
+            'email' => session('email'),
+            'role' => session('role'),
+            'user_id' => session('user_id'),
+        ] : null;
+
+        if (!$user || !in_array($user['role'], ['dosen', 'admin'])) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized action.'], 403);
+        }
+
+        $kegiatan = Kegiatan::find($kegiatanId);
+
+        if (!$kegiatan) {
+            return response()->json(['success' => false, 'message' => 'Kegiatan not found.'], 404);
+        }
+
+        $kegiatan->update(['status' => 'approved']);
+
+        return response()->json(['success' => true, 'message' => 'Kegiatan approved successfully.']);
+    }
+
+    public function unapprove(Request $request, $kegiatanId)
+    {
+        $user = session()->has('user_id') ? [
+            'name' => session('name'),
+            'email' => session('email'),
+            'role' => session('role'),
+            'user_id' => session('user_id'),
+        ] : null;
+
+        if (!$user || !in_array($user['role'], ['dosen', 'admin'])) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized action.'], 403);
+        }
+
+        $kegiatan = Kegiatan::find($kegiatanId);
+
+        if (!$kegiatan) {
+            return response()->json(['success' => false, 'message' => 'Kegiatan not found.'], 404);
+        }
+
+        $kegiatan->update(['status' => 'menunggu']);
+
+        return response()->json(['success' => true, 'message' => 'Kegiatan unapproved successfully.']);
+    }
 }

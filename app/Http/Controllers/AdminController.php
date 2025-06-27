@@ -66,6 +66,11 @@ class AdminController extends Controller
         return response()->json(['success' => true, 'message' => 'User updated successfully']);
     }
 
+    public function approveKegiatan()
+    {
+        return redirect()->route('manageApprovals')->with('success', 'Redirected to manage approvals.');
+    }
+
     public function deleteUser($userId)
     {
         $user = User::findOrFail($userId);

@@ -13,11 +13,11 @@ class MenuService
             'admin' => [
                 ['title' => 'Daftar Kegiatan', 'route' => 'daftarKegiatan', 'icon' => 'calendar'],
                 ['title' => 'Manage User', 'route' => 'manageUser', 'icon' => 'user-cog'],
-                ['title' => 'Approve/Unapprove Kegiatan', 'route' => 'approveKegiatan', 'icon' => 'check-circle'],
+                ['title' => 'Approve/Unapprove Kegiatan', 'route' => 'manageApprovals', 'icon' => 'check-circle'],
             ],
             'dosen' => [
                 ['title' => 'Daftar Kegiatan', 'route' => 'daftarKegiatan', 'icon' => 'calendar'],
-                ['title' => 'Approve Kegiatan', 'route' => 'approveKegiatan', 'icon' => 'check-circle'],
+                ['title' => 'Approve Kegiatan', 'route' => 'manageApprovals', 'icon' => 'check-circle'],
             ],
             'himpunan' => [
                 ['title' => 'Daftar Kegiatan', 'route' => 'daftarKegiatan', 'icon' => 'calendar'],
