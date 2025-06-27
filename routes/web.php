@@ -17,7 +17,6 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.pr
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth.check'])->group(function () {
-    
     // Dashboard utama - accessible by all roles
     Route::get('/daftarKegiatan', [KegiatanController::class, 'index'])->name('daftarKegiatan');
     
@@ -29,7 +28,6 @@ Route::middleware(['auth.check'])->group(function () {
         Route::get('/manageKegiatan', [AdminController::class, 'manageKegiatan'])->name('manageKegiatan');
         Route::get('/manageUser', [AdminController::class, 'manageUser'])->name('manageUser');
         Route::get('/approveKegiatan', [AdminController::class, 'approveKegiatan'])->name('approveKegiatan');
-
         Route::get('/admin/getUser/{userId}', [AdminController::class, 'getUser'])->name('admin.getUser');
         Route::post('/admin/createUser', [AdminController::class, 'createUser'])->name('admin.createUser');
         Route::put('/admin/updateUser/{userId}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
@@ -37,10 +35,11 @@ Route::middleware(['auth.check'])->group(function () {
         
     });
     
-    // Routes khusus Dosen
-    Route::middleware(['role:dosen'])->group(function () {
-        Route::get('/kelolaKegiatan', [KegiatanController::class, 'kelola'])->name('kelolaKegiatan');
-        Route::get('/laporanMahasiswa', [KegiatanController::class, 'laporan'])->name('laporanMahasiswa');
+    // Routes for Dosen only (approval management)
+    Route::middleware(['roles:dosen,admin'])->group(function () {
+        Route::get('/manageApprovals', [KegiatanController::class, 'manageApprovals'])->name('manageApprovals');
+        Route::post('/kegiatan/approve/{kegiatanId}', [KegiatanController::class, 'approve'])->name('kegiatan.approve');
+        Route::post('/kegiatan/unapprove/{kegiatanId}', [KegiatanController::class, 'unapprove'])->name('kegiatan.unapprove');
     });
     
     // Routes khusus Himpunan
