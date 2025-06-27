@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('kegiatan', function (Blueprint $table) {
             $table->uuid('kegiatan_id')->primary();
-            $table->string('Judul');
+            $table->string('judul');
             $table->string('deskripsi');
-            $table->integer('Kuota');
-            $table->string('Status');
-            $table->string('Created_by');
+            $table->string('gambar_kegiatan')->nullable();
+            $table->integer('kuota');
+            $table->string('status')->default('menunggu'); 
+            $table->string('created_by');
             $table->timestamps();
         });
     }

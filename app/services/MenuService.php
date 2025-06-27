@@ -18,14 +18,12 @@ class MenuService
             ],
             'dosen' => [
                 ['title' => 'Daftar Kegiatan', 'route' => 'daftarKegiatan', 'icon' => 'calendar'],
-                ['title' => 'Kelola Kegiatan', 'route' => 'kelolaKegiatan', 'icon' => 'edit'],
-                ['title' => 'Laporan Mahasiswa', 'route' => 'laporanMahasiswa', 'icon' => 'file-text'],
+                ['title' => 'Approve Kegiatan', 'route' => 'approveKegiatan', 'icon' => 'check-circle'],
             ],
             'himpunan' => [
                 ['title' => 'Daftar Kegiatan', 'route' => 'daftarKegiatan', 'icon' => 'calendar'],
                 ['title' => 'Buat Kegiatan', 'route' => 'buatKegiatan', 'icon' => 'plus-circle'],
                 ['title' => 'Kegiatan Saya', 'route' => 'kegiatanSaya', 'icon' => 'list'],
-                ['title' => 'Anggota Himpunan', 'route' => 'anggotaHimpunan', 'icon' => 'users'],
             ],
         ];
 

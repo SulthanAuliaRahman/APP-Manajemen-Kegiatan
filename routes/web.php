@@ -47,6 +47,6 @@ Route::middleware(['auth.check'])->group(function () {
     Route::middleware(['role:himpunan'])->group(function () {
         Route::get('/buatKegiatan', [KegiatanController::class, 'create'])->name('buatKegiatan');
         Route::get('/kegiatanSaya', [KegiatanController::class, 'myActivities'])->name('kegiatanSaya');
-        Route::get('/anggotaHimpunan', [UserController::class, 'anggotaHimpunan'])->name('anggotaHimpunan');
+        Route::post('/buatKegiatan', [KegiatanController::class, 'store'])->name('buatKegiatan.store');
     });
 });
