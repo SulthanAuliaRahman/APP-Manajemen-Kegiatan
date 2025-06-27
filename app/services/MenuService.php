@@ -12,7 +12,6 @@ class MenuService
             ],
             'admin' => [
                 ['title' => 'Daftar Kegiatan', 'route' => 'daftarKegiatan', 'icon' => 'calendar'],
-                ['title' => 'Manage Kegiatan', 'route' => 'manageKegiatan', 'icon' => 'settings'],
                 ['title' => 'Manage User', 'route' => 'manageUser', 'icon' => 'user-cog'],
                 ['title' => 'Approve/Unapprove Kegiatan', 'route' => 'approveKegiatan', 'icon' => 'check-circle'],
             ],
