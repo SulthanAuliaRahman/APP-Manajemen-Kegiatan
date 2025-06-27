@@ -69,324 +69,75 @@
                 </div>
             @endif
         </div>
-    </div>
 
-    <!-- Create User Modal -->
-    <div id="createUserModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-auto">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-2xl font-bold text-gray-800">Buat User Baru</h2>
-                    <button id="closeCreateModal" class="text-gray-400 hover:text-gray-600 text-2xl">
-                        &times;
-                    </button>
-                </div>
-                
+        <!-- Create User Modal -->
+        <div id="createUserModal" class="modal-overlay fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg p-6 w-full max-w-md text-black">
+                <h2 class="text-2xl font-bold mb-4">Create User</h2>
                 <form id="createUserForm">
-                    @csrf
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Name *</label>
-                            <input type="text" name="name" id="createName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                            <input type="email" name="email" id="createEmail" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Password *</label>
-                            <input type="password" name="password" id="createPassword" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Role *</label>
-                            <select name="role" id="createRole" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
-                                <option value="">Pilih Role</option>
-                                <option value="mahasiswa">Mahasiswa</option>
-                                <option value="dosen">Dosen</option>
-                                <option value="himpunan">Himpunan</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </div>
+                    <div class="mb-4">
+                        <label for="createName" class="block text-sm font-medium">Name</label>
+                        <input type="text" id="createName" name="name" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                     </div>
-                    
-                    <div class="flex justify-end space-x-3 mt-6">
-                        <button type="button" id="cancelCreateBtn" class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors">
-                            Batal
-                        </button>
-                        <button type="submit" class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors">
-                            Simpan
-                        </button>
+                    <div class="mb-4">
+                        <label for="createEmail" class="block text-sm font-medium">Email</label>
+                        <input type="email" id="createEmail" name="email" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="createPassword" class="block text-sm font-medium">Password</label>
+                        <input type="password" id="createPassword" name="password" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="createRole" class="block text-sm font-medium">Role</label>
+                        <select id="createRole" name="role" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                            <option value="mahasiswa">Mahasiswa</option>
+                            <option value="dosen">Dosen</option>
+                            <option value="himpunan">Himpunan</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" id="cancelCreateBtn" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">Cancel</button>
+                        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Create</button>
                     </div>
                 </form>
             </div>
         </div>
-    </div>
 
-    <!-- Edit User Modal -->
-    <div id="editUserModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-auto">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-2xl font-bold text-gray-800">Edit User</h2>
-                    <button id="closeEditModal" class="text-gray-400 hover:text-gray-600 text-2xl">
-                        &times;
-                    </button>
-                </div>
-                
+        <!-- Edit User Modal -->
+        <div id="editUserModal" class="modal-overlay fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg p-6 w-full max-w-md text-black">
+                <h2 class="text-2xl font-bold mb-4">Edit User</h2>
                 <form id="editUserForm">
-                    @csrf
-                    @method('PUT')
-                    <input type="hidden" name="user_id" id="editUserId">
-                    
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Name *</label>
-                            <input type="text" name="name" id="editName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                            <input type="email" name="email" id="editEmail" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                            <input type="password" name="password" id="editPassword" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Kosongkan jika tidak ingin mengubah">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Role *</label>
-                            <select name="role" id="editRole" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
-                                <option value="mahasiswa">Mahasiswa</option>
-                                <option value="dosen">Dosen</option>
-                                <option value="himpunan">Himpunan</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </div>
+                    <input type="hidden" id="editUserId" name="user_id">
+                    <div class="mb-4">
+                        <label for="editName" class="block text-sm font-medium">Name</label>
+                        <input type="text" id="editName" name="name" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                     </div>
-                    
-                    <div class="flex justify-between mt-6">
-                        <button type="button" id="deleteUserBtn" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors">
-                            Hapus User
-                        </button>
-                        <div class="flex space-x-3">
-                            <button type="button" id="cancelEditBtn" class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors">
-                                Batal
-                            </button>
-                            <button type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
-                                Update
-                            </button>
-                        </div>
+                    <div class="mb-4">
+                        <label for="editEmail" class="block text-sm font-medium">Email</label>
+                        <input type="email" id="editEmail" name="email" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="editPassword" class="block text-sm font-medium">Password (leave blank to keep unchanged)</label>
+                        <input type="password" id="editPassword" name="password" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div class="mb-4">
+                        <label for="editRole" class="block text-sm font-medium">Role</label>
+                        <select id="editRole" name="role" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                            <option value="mahasiswa">Mahasiswa</option>
+                            <option value="dosen">Dosen</option>
+                            <option value="himpunan">Himpunan</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" id="cancelEditBtn" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">Cancel</button>
+                        <button type="button" id="deleteUserBtn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Delete</button>
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Update</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
-    <!-- Loading Overlay -->
-    <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
-        <div class="bg-white p-6 rounded-lg">
-            <div class="flex items-center space-x-3">
-                <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600"></div>
-                <span class="text-gray-700">Loading...</span>
-            </div>
-        </div>
-    </div>
-
 @endsection
-
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    
-    // Modal elements
-    const createUserModal = document.getElementById('createUserModal');
-    const editUserModal = document.getElementById('editUserModal');
-    const loadingOverlay = document.getElementById('loadingOverlay');
-    
-    // Forms
-    const createUserForm = document.getElementById('createUserForm');
-    const editUserForm = document.getElementById('editUserForm');
-    
-    // Utility functions
-    function showLoading() {
-        loadingOverlay.classList.remove('hidden');
-    }
-    
-    function hideLoading() {
-        loadingOverlay.classList.add('hidden');
-    }
-    
-    function showModal(modal) {
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
-    
-    function hideModal(modal) {
-        modal.classList.add('hidden');
-        document.body.style.overflow = 'auto';
-    }
-    
-    function showAlert(message, type = 'info') {
-        alert(message); // You can replace this with a better notification system
-    }
-    
-    // Create User Modal
-    document.getElementById('createUserBtn').addEventListener('click', function() {
-        createUserForm.reset();
-        showModal(createUserModal);
-    });
-    
-    document.getElementById('closeCreateModal').addEventListener('click', function() {
-        hideModal(createUserModal);
-    });
-    
-    document.getElementById('cancelCreateBtn').addEventListener('click', function() {
-        hideModal(createUserModal);
-    });
-    
-    // Edit User Modal
-    document.querySelectorAll('.editUserBtn').forEach(button => {
-        button.addEventListener('click', function() {
-            const userId = this.getAttribute('data-user-id');
-            const userName = this.getAttribute('data-user-name');
-            const userEmail = this.getAttribute('data-user-email');
-            const userRole = this.getAttribute('data-user-role');
-            
-            // Fill form with user data
-            document.getElementById('editUserId').value = userId;
-            document.getElementById('editName').value = userName;
-            document.getElementById('editEmail').value = userEmail;
-            document.getElementById('editRole').value = userRole;
-            document.getElementById('editPassword').value = '';
-            
-            showModal(editUserModal);
-        });
-    });
-    
-    document.getElementById('closeEditModal').addEventListener('click', function() {
-        hideModal(editUserModal);
-    });
-    
-    document.getElementById('cancelEditBtn').addEventListener('click', function() {
-        hideModal(editUserModal);
-    });
-    
-    // Create User Form Submit
-    createUserForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(this);
-        showLoading();
-        
-        fetch('/admin/createUser', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            hideLoading();
-            if (data.success) {
-                showAlert('User berhasil dibuat!', 'success');
-                hideModal(createUserModal);
-                location.reload();
-            } else {
-                showAlert(data.message || 'Terjadi kesalahan saat membuat user', 'error');
-            }
-        })
-        .catch(error => {
-            hideLoading();
-            console.error('Error:', error);
-            showAlert('Terjadi kesalahan pada server', 'error');
-        });
-    });
-    
-    // Edit User Form Submit
-    editUserForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const userId = document.getElementById('editUserId').value;
-        const formData = new FormData(this);
-        showLoading();
-        
-        fetch(`/admin/updateUser/${userId}`, {
-            method: 'POST', // Use POST with _method field for Laravel
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            hideLoading();
-            if (data.success) {
-                showAlert('User berhasil diupdate!', 'success');
-                hideModal(editUserModal);
-                location.reload();
-            } else {
-                showAlert(data.message || 'Terjadi kesalahan saat mengupdate user', 'error');
-            }
-        })
-        .catch(error => {
-            hideLoading();
-            console.error('Error:', error);
-            showAlert('Terjadi kesalahan pada server', 'error');
-        });
-    });
-    
-    // Delete User
-    document.getElementById('deleteUserBtn').addEventListener('click', function() {
-        if (confirm('Apakah Anda yakin ingin menghapus user ini? Tindakan ini tidak dapat dibatalkan.')) {
-            const userId = document.getElementById('editUserId').value;
-            showLoading();
-            
-            fetch(`/admin/deleteUser/${userId}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                hideLoading();
-                if (data.success) {
-                    showAlert('User berhasil dihapus!', 'success');
-                    hideModal(editUserModal);
-                    location.reload();
-                } else {
-                    showAlert(data.message || 'Terjadi kesalahan saat menghapus user', 'error');
-                }
-            })
-            .catch(error => {
-                hideLoading();
-                console.error('Error:', error);
-                showAlert('Terjadi kesalahan pada server', 'error');
-            });
-        }
-    });
-    
-    // Close modal when clicking outside
-    createUserModal.addEventListener('click', function(e) {
-        if (e.target === this) {
-            hideModal(createUserModal);
-        }
-    });
-    
-    editUserModal.addEventListener('click', function(e) {
-        if (e.target === this) {
-            hideModal(editUserModal);
-        }
-    });
-});
-</script>
-@endpush

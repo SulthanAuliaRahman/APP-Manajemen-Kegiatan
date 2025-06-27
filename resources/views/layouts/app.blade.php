@@ -9,6 +9,9 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="bg-indigo-900 text-white flex h-screen">
     <div class="flex h-full">
@@ -17,5 +20,13 @@
             @yield('content')
         </div>
     </div>
+    
+    <!-- Load specific JavaScript files based on current route -->
+    @if(request()->routeIs('manageUser'))
+        @vite(['resources/js/manageUser.js'])
+    @endif
+    
+    <!-- Stack for additional scripts -->
+    @stack('scripts')
 </body>
 </html>
