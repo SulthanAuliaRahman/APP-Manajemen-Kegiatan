@@ -131,4 +131,38 @@ class KegiatanController extends Controller
 
         return view('kegiatanSaya', compact('user', 'menuItems', 'kegiatans'));
     }
+
+    public function update(Request $request, $kegiatanId)
+    {
+        $user = session()->has('user_id') ? [
+            'name' => session('name'),
+            'email' => session('email'),
+            'role' => session('role'),
+            'user_id' => session('user_id'),
+        ] : null;
+
+        if (!$user || $user['role'] !== 'himpunan') {
+            return response()->json(['success' => false, 'message' => 'Unauthorized action.'], 403);
+        }
+
+        $kegiatan = Kegiatan::where('kegiatan_id', $kegiatanId)->where('created_by', $user['user_id'])->first();
+
+        if (!$kegiatan) {
+            return response()->json(['success' => false, 'message' => 'Kegiatan not found or not authorized.'], 404);
+        }
+
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'kuota' => 'required|integer|min:1|max:1000',
+            'status' => 'required|in:menunggu,approved',
+        ]);
+
+        $kegiatan->update([
+            'judul' => $request->judul,
+            'kuota' => $request->kuota,
+            'status' => $kegiatan->status === 'approved' ? 'approved' : $request->status,
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Kegiatan updated successfully.']);
+    }
 }
