@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Services\MenuService;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -21,69 +22,9 @@ class sidebar extends Component
         ];
 
         // Set menu items berdasarkan role
-        $this->menuItems = $this->getMenuItems($this->user['role']);
+        $this->menuItems = MenuService::getMenuItems($this->user['role']);
     }
 
-    private function getMenuItems($role)
-    {
-        $menus = [
-            'Mahasiswa' => [
-                [
-                    'title' => 'Daftar Kegiatan',
-                    'route' => 'daftarKegiatan',
-                    'icon' => 'calendar'
-                ]
-            ],
-            'Dosen' => [
-                [
-                    'title' => 'Daftar Kegiatan',
-                    'route' => 'daftarKegiatan',
-                    'icon' => 'calendar'
-                ],
-                [
-                    'title' => 'Approve Kegiatan',
-                    'route' => 'approveKegiatan',
-                    'icon' => 'check-circle'
-                ]
-            ],
-            'Himpunan' => [
-                [
-                    'title' => 'Daftar Kegiatan',
-                    'route' => 'daftarKegiatan',
-                    'icon' => 'calendar'
-                ],
-                [
-                    'title' => 'Buat Kegiatan',
-                    'route' => 'buatKegiatan',
-                    'icon' => 'plus-circle'
-                ]
-            ],
-            'Admin' => [
-                [
-                    'title' => 'Daftar Kegiatan',
-                    'route' => 'daftarKegiatan',
-                    'icon' => 'calendar'
-                ],
-                [
-                    'title' => 'Buat Kegiatan',
-                    'route' => 'buatKegiatan',
-                    'icon' => 'plus-circle'
-                ],
-                [
-                    'title' => 'Approve Kegiatan',
-                    'route' => 'approveKegiatan',
-                    'icon' => 'check-circle'
-                ],
-                [
-                    'title' => 'Buat User',
-                    'route' => 'buatUser',
-                    'icon' => 'user-cog'
-                ]
-            ]
-        ];
-
-        return $menus[$role] ?? $menus['mahasiswa'];
-    }
 
     public function render()
     {

@@ -9,7 +9,6 @@ class MenuService
         $menuItems = [
             'mahasiswa' => [
                 ['title' => 'Daftar Kegiatan', 'route' => 'daftarKegiatan', 'icon' => 'calendar'],
-                ['title' => 'Daftar User', 'route' => 'daftarUser', 'icon' => 'users'],
             ],
             'admin' => [
                 ['title' => 'Daftar Kegiatan', 'route' => 'daftarKegiatan', 'icon' => 'calendar'],

@@ -30,6 +30,12 @@ Route::middleware(['auth.check'])->group(function () {
         Route::get('/manageUser', [AdminController::class, 'manageUser'])->name('manageUser');
         Route::get('/approveKegiatan', [AdminController::class, 'approveKegiatan'])->name('approveKegiatan');
         Route::get('/buatUser', [AdminController::class, 'buatUser'])->name('buatUser');
+
+        Route::get('/admin/getUser/{userId}', [AdminController::class, 'getUser'])->name('admin.getUser');
+        Route::post('/admin/createUser', [AdminController::class, 'createUser'])->name('admin.createUser');
+        Route::put('/admin/updateUser/{userId}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
+        Route::delete('/admin/deleteUser/{userId}', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
+        
     });
     
     // Routes khusus Dosen
