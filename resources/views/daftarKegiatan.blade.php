@@ -6,7 +6,7 @@
     <div class="p-6 bg-indigo-900 min-h-screen">
         <h1 class="text-4xl font-bold mb-6 text-white">Dash Board</h1>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach($kegiatans as $kegiatan)
+            @foreach($kegiatan as $kegiatan)
                 <div class="bg-white text-black p-4 rounded-lg shadow-lg">
                     <img src="{{ $kegiatan['image'] }}" alt="{{ $kegiatan['title'] }}" class="w-full h-32 object-cover rounded-t-lg">
                     <div class="p-2">

@@ -1,19 +1,16 @@
 <div class="w-64 bg-white text-black p-4 rounded-r-lg shadow-lg flex flex-col justify-between h-full">
     <div>
-        {{-- Header dengan Role --}}
+        
         <div class="mb-6">
-            <div class="bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-medium mb-2">
-                Role: {{ ucfirst($user['role']) }}
-            </div>
-            <h2 class="text-2xl font-bold">{{ ucfirst($user['role']) }}Page Kegiatan</h2>
+            <h2 class="rounded-t-lg w-full h-full bg-indigo-600 text-2xl font-bold">{{ ucfirst($user['role']) }}</h2>
+            <h2 class="rounded-b-lg w-full h-full bg-indigo-600 text-2xl font-bold">Page Kegiatan</h2>
         </div>
 
-        {{-- Navigation Menu --}}
         <nav class="space-y-2">
             @foreach($menuItems as $item)
                 <a href="{{ route($item['route']) }}" 
                    class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 transition-colors duration-200 {{ request()->routeIs($item['route']) ? 'bg-indigo-100 text-indigo-700 border-r-4 border-indigo-700' : 'text-gray-700' }}">
-                    {{-- Icon (menggunakan emoji sederhana, bisa diganti dengan icon library) --}}
+
                     <span class="text-lg">
                         @switch($item['icon'])
                             @case('calendar')

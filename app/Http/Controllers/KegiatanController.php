@@ -22,7 +22,7 @@ class KegiatanController extends Controller
 
         $menuItems = MenuService::getMenuItems($user['role']);
 
-        $kegiatans = [
+        $kegiatan = [
             [
                 'title' => 'Mencari Sampah',
                 'image' => 'https://via.placeholder.com/200x150',
@@ -40,6 +40,6 @@ class KegiatanController extends Controller
             ],
         ];
 
-        return view('daftarKegiatan', compact('user', 'menuItems', 'kegiatans'));
+        return view('daftarKegiatan', compact('user', 'menuItems', 'kegiatan'));
     }
 }
