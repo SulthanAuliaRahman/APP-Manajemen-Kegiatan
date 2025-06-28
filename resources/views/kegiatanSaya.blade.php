@@ -33,14 +33,21 @@
                                     </span>
                                 </td>
                                 <td class="p-4 text-center">
-                                    <button class="editKegiatanBtn text-indigo-600 hover:text-indigo-800 p-2 rounded-full hover:bg-indigo-50 transition-colors"
-                                            data-kegiatan-id="{{ $kegiatan->kegiatan_id }}"
-                                            data-judul="{{ $kegiatan->judul }}"
-                                            data-kuota="{{ $kegiatan->kuota }}"
-                                            data-status="{{ $kegiatan->status }}"
-                                            title="Edit Kegiatan">
-                                        <ion-icon name="create-outline" class="text-xl"></ion-icon>
-                                    </button>
+                                    @if($kegiatan->status !== 'approved')
+                                        <button class="editKegiatanBtn text-indigo-600 hover:text-indigo-800 p-2 rounded-full hover:bg-indigo-50 transition-colors"
+                                                data-kegiatan-id="{{ $kegiatan->kegiatan_id }}"
+                                                data-judul="{{ $kegiatan->judul }}"
+                                                data-deskripsi="{{ $kegiatan->deskripsi }}"
+                                                data-kuota="{{ $kegiatan->kuota }}"
+                                                data-status="{{ $kegiatan->status }}"
+                                                title="Edit Kegiatan">
+                                            <ion-icon name="create-outline" class="text-xl"></ion-icon>
+                                        </button>
+                                    @else
+                                        <span class="text-gray-400 p-2 rounded-full" title="Kegiatan yang sudah approved tidak dapat diedit">
+                                            <ion-icon name="lock-closed-outline" class="text-xl"></ion-icon>
+                                        </span>
+                                    @endif
                                 </td>
                             </tr>
                         @empty
@@ -64,15 +71,12 @@
                         <input type="text" id="editJudul" name="judul" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                     </div>
                     <div class="mb-4">
-                        <label for="editKuota" class="block text-sm font-medium">Kuota</label>
-                        <input type="number" id="editKuota" name="kuota" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" required min="1" max="1000">
+                        <label for="editDeskripsi" class="block text-sm font-medium">Deskripsi</label>
+                        <textarea id="editDeskripsi" name="deskripsi" rows="4" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
                     </div>
                     <div class="mb-4">
-                        <label for="editStatus" class="block text-sm font-medium">Status</label>
-                        <select id="editStatus" name="status" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
-                            <option value="menunggu">Menunggu</option>
-                            <option value="approved">Approved</option>
-                        </select>
+                        <label for="editKuota" class="block text-sm font-medium">Kuota</label>
+                        <input type="number" id="editKuota" name="kuota" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" required min="1" max="1000">
                     </div>
                     <div class="flex justify-end space-x-2">
                         <button type="button" id="cancelEditBtn" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">Cancel</button>
@@ -82,8 +86,4 @@
             </div>
         </div>
     </div>
-
-    @push('scripts')
-        <script src="{{ asset('js/kegiatanSaya.js') }}"></script>
-    @endpush
 @endsection

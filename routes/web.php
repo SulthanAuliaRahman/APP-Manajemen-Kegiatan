@@ -47,6 +47,6 @@ Route::middleware(['auth.check'])->group(function () {
         Route::get('/buatKegiatan', [KegiatanController::class, 'create'])->name('buatKegiatan');
         Route::get('/kegiatanSaya', [KegiatanController::class, 'myActivities'])->name('kegiatanSaya');
         Route::post('/buatKegiatan', [KegiatanController::class, 'store'])->name('buatKegiatan.store');
-        Route::put('/buatKegiatan/store/{kegiatanId}', [KegiatanController::class, 'update'])->name('kegiatan.update');
+        Route::post('/buatKegiatan/update/{kegiatanId}', [KegiatanController::class, 'update'])->name('kegiatan.update');
     });
 });

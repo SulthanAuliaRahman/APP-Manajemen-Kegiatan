@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/css/app.css', 
                 'resources/js/app.js',
                 'resources/js/manageUser.js',
+                'resources/js/kegiatanSaya.js',
             ],
             refresh: true,
         }),

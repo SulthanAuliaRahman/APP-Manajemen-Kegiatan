@@ -24,6 +24,8 @@
     <!-- Load specific JavaScript files based on current route -->
     @if(request()->routeIs('manageUser'))
         @vite(['resources/js/manageUser.js'])
+    @elseif(request()->routeIs('kegiatanSaya'))
+        @vite(['resources/js/kegiatanSaya.js'])
     @endif
     
     <!-- Stack for additional scripts -->

@@ -151,17 +151,25 @@ class KegiatanController extends Controller
             return response()->json(['success' => false, 'message' => 'Kegiatan not found or not authorized.'], 404);
         }
 
+        // Debug log for received data
+        Log::info('Update request data:', $request->all());
+
         $request->validate([
             'judul' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string|max:1000',
             'kuota' => 'required|integer|min:1|max:1000',
-            'status' => 'required|in:menunggu,approved',
         ]);
 
-        $kegiatan->update([
+        $updateData = [
             'judul' => $request->judul,
             'kuota' => $request->kuota,
-            'status' => $kegiatan->status === 'approved' ? 'approved' : $request->status,
-        ]);
+        ];
+
+        if ($request->has('deskripsi')) {
+            $updateData['deskripsi'] = $request->deskripsi;
+        }
+
+        $kegiatan->update($updateData);
 
         return response()->json(['success' => true, 'message' => 'Kegiatan updated successfully.']);
     }
