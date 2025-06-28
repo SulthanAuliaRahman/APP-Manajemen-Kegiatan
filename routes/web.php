@@ -23,6 +23,8 @@ Route::middleware(['auth.check'])->group(function () {
     // Routes untuk Mahasiswa dan semua role
     Route::get('/daftarUser', [UserController::class, 'index'])->name('daftarUser');
     
+    Route::post('/daftarKegiatan/register/{kegiatanId}', [KegiatanController::class, 'register'])->name('kegiatan.register');
+    
     // Routes khusus Admin
     Route::middleware(['role:admin'])->group(function () {
         Route::get('/manageKegiatan', [AdminController::class, 'manageKegiatan'])->name('manageKegiatan');

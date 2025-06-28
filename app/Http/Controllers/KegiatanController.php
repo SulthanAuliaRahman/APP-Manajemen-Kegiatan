@@ -67,7 +67,7 @@ class KegiatanController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string|max:1000',
-            'gambar_kegiatan' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar_kegiatan' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048|dimensions:max_width=1920,max_height=1080', // Added dimension limits
             'kuota' => 'required|integer|min:1|max:1000',
         ], [
             'judul.required' => 'Judul kegiatan wajib diisi.',
@@ -77,6 +77,7 @@ class KegiatanController extends Controller
             'gambar_kegiatan.image' => 'File harus berupa gambar.',
             'gambar_kegiatan.mimes' => 'Format gambar harus jpeg, png, jpg, atau gif.',
             'gambar_kegiatan.max' => 'Ukuran gambar maksimal 2MB.',
+            'gambar_kegiatan.dimensions' => 'Dimensi gambar maksimal 1920x1080 piksel.',
             'kuota.required' => 'Kuota peserta wajib diisi.',
             'kuota.integer' => 'Kuota harus berupa angka.',
             'kuota.min' => 'Kuota minimal 1 peserta.',
@@ -94,9 +95,15 @@ class KegiatanController extends Controller
 
             if ($request->hasFile('gambar_kegiatan')) {
                 $file = $request->file('gambar_kegiatan');
+                Log::info('Uploaded file:', ['name' => $file->getClientOriginalName(), 'size' => $file->getSize(), 'mime' => $file->getMimeType()]); // Debug log
                 $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
-                $path = $file->storeAs('public/kegiatan', $filename);
-                $kegiatan->gambar_kegiatan = str_replace('public/', 'storage/', $path);
+                $path = $file->storeAs('kegiatan', $filename, 'public'); // Store in storage/app/public/kegiatan
+                if ($path) {
+                    $kegiatan->gambar_kegiatan = 'storage/' . $path; // Save relative path
+                    Log::info('Image stored at:', ['path' => $kegiatan->gambar_kegiatan]);
+                } else {
+                    Log::error('Failed to store image');
+                }
             }
 
             $kegiatan->save();
@@ -108,6 +115,48 @@ class KegiatanController extends Controller
                 ->with('error', 'Gagal membuat kegiatan: ' . $e->getMessage())
                 ->withInput();
         }
+    }
+
+    public function register(Request $request, $kegiatanId)
+    {
+        $user = session()->has('user_id') ? [
+            'name' => session('name'),
+            'email' => session('email'),
+            'role' => session('role'),
+            'user_id' => session('user_id'),
+        ] : null;
+
+        if (!$user || $user['role'] !== 'mahasiswa') {
+            return redirect()->back()->with('error', 'Hanya mahasiswa yang dapat mendaftar kegiatan.');
+        }
+
+        $kegiatan = Kegiatan::find($kegiatanId);
+
+        if (!$kegiatan || $kegiatan->status !== 'approved') {
+            return redirect()->back()->with('error', 'Kegiatan tidak ditemukan atau belum disetujui.');
+        }
+
+        if ($kegiatan->isKuotaPenuh()) {
+            return redirect()->back()->with('error', 'Kuota kegiatan sudah penuh.');
+        }
+
+        // Check if user is already registered
+        $existingRegistration = UsersKegiatan::where('user_id', $user['user_id'])
+            ->where('kegiatan_id', $kegiatanId)
+            ->first();
+
+        if ($existingRegistration) {
+            return redirect()->back()->with('error', 'Anda sudah terdaftar untuk kegiatan ini.');
+        }
+
+        // Register user to kegiatan
+        $registration = new UsersKegiatan();
+        $registration->id = Str::uuid();
+        $registration->user_id = $user['user_id'];
+        $registration->kegiatan_id = $kegiatanId;
+        $registration->save();
+
+        return redirect()->back()->with('success', 'Berhasil mendaftar kegiatan!');
     }
 
     public function myActivities()
