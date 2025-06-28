@@ -253,6 +253,7 @@ class KegiatanController extends Controller
         ] : null;
 
         if (!$user || !in_array($user['role'], ['dosen', 'admin'])) {
+            Log::info('Unauthorized approve attempt by: ' . ($user ? $user['email'] : 'Not logged in'));
             return response()->json(['success' => false, 'message' => 'Unauthorized action.'], 403);
         }
 
@@ -277,16 +278,23 @@ class KegiatanController extends Controller
         ] : null;
 
         if (!$user || !in_array($user['role'], ['dosen', 'admin'])) {
+            Log::info('Unauthorized unapprove attempt by: ' . ($user ? $user['email'] : 'Not logged in'));
             return response()->json(['success' => false, 'message' => 'Unauthorized action.'], 403);
         }
 
         $kegiatan = Kegiatan::find($kegiatanId);
 
         if (!$kegiatan) {
+            Log::info('Kegiatan not found for unapprove: ' . $kegiatanId);
             return response()->json(['success' => false, 'message' => 'Kegiatan not found.'], 404);
         }
 
+        if ($kegiatan->status !== 'approved') {
+            return response()->json(['success' => false, 'message' => 'Kegiatan belum disetujui, tidak dapat di-unapprove.'], 400);
+        }
+
         $kegiatan->update(['status' => 'menunggu']);
+        Log::info('Kegiatan unapproved: ' . $kegiatanId);
 
         return response()->json(['success' => true, 'message' => 'Kegiatan unapproved successfully.']);
     }

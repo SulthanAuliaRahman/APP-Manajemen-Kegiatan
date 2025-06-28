@@ -20,9 +20,6 @@ Route::middleware(['auth.check'])->group(function () {
     // Dashboard utama - accessible by all roles
     Route::get('/daftarKegiatan', [KegiatanController::class, 'index'])->name('daftarKegiatan');
     
-    // Routes untuk Mahasiswa dan semua role
-    Route::get('/daftarUser', [UserController::class, 'index'])->name('daftarUser');
-    
     Route::post('/daftarKegiatan/register/{kegiatanId}', [KegiatanController::class, 'register'])->name('kegiatan.register');
     
     // Routes khusus Admin

@@ -39,6 +39,7 @@
                                                 title="Approve Kegiatan">
                                             <ion-icon name="checkmark-outline" class="text-xl"></ion-icon>
                                         </button>
+                                    @elseif($kegiatan->status === 'approved')
                                         <button class="unapproveBtn text-red-600 hover:text-red-800 p-2 rounded-full hover:bg-red-50 transition-colors"
                                                 data-kegiatan-id="{{ $kegiatan->kegiatan_id }}"
                                                 title="Unapprove Kegiatan">
